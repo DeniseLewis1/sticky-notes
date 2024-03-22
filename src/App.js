@@ -1,46 +1,33 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header.js";
 import NotesList from "./NotesList.js";
 
-class App extends Component {
-  state = {
-    notes: [
-      {
-        id: Date.now(),
-        title: "",
-        description: "",
-        doesMatchSearch: true
-      }
-    ],
-    searchText: ""
-  };
+function App() {
+  const [notes, setNotes] = useState(JSON.parse(window.localStorage.getItem("savedNotes")) || [{
+    id: Date.now(),
+    title: "",
+    description: "",
+    doesMatchSearch: true
+  }]);
+  const [searchText, setSearchText] = useState("");
 
-  componentDidUpdate() {
-    const savedNotes = JSON.stringify(this.state.notes);
-    localStorage.setItem("savedNotes", savedNotes);
-  }
+  useEffect(() => {
+    window.localStorage.setItem("savedNotes", JSON.stringify(notes));
+  }, [notes]);
 
-  componentDidMount() {
-    const savedNotes = localStorage.getItem("savedNotes");
-    if (savedNotes) {
-      this.setState({ notes: JSON.parse(savedNotes) });
-    }
-  }
-
-  addNote = () => {
+  const addNote = () => {
     const newNote = {
       id: Date.now(),
       title: "",
       description: "",
       doesMatchSearch: true
     };
-    const newNotes = [newNote, ...this.state.notes];
-    this.setState({ notes: newNotes });
+    setNotes([newNote, ...notes])
   };
 
-  onType = (editMeId, updatedKey, updatedValue) => {
-    const updatedNotes = this.state.notes.map((note) => {
-      if (note.id !== editMeId) {
+  const editNote = (noteId, updatedKey, updatedValue) => {
+    const updatedNotes = notes.map((note) => {
+      if (note.id !== noteId) {
         return note;
       } else {
         if (updatedKey === "title") {
@@ -52,13 +39,13 @@ class App extends Component {
         }
       }
     });
-    this.setState({ notes: updatedNotes });
+    setNotes(updatedNotes);
   };
 
-  onSearch = (text) => {
+  const searchNote = (text) => {
     const newSearchText = text.toLowerCase();
 
-    const updatedNotes = this.state.notes.map((note) => {
+    const updatedNotes = notes.map((note) => {
       if (!newSearchText) {
         note.doesMatchSearch = true;
         return note;
@@ -69,32 +56,31 @@ class App extends Component {
         return note;
       }
     });
-    this.setState({ notes: updatedNotes, searchText: newSearchText });
+    setNotes(updatedNotes);
+    setSearchText(newSearchText);
   };
 
-  deleteNote = (deleteId) => {
-    const updatedNotes = this.state.notes.filter(
-      (note) => note.id !== deleteId
+  const deleteNote = (noteId) => {
+    const updatedNotes = notes.filter(
+      (note) => note.id !== noteId
     );
-    this.setState({ notes: updatedNotes });
+    setNotes(updatedNotes);
   };
 
-  render() {
-    return (
-      <div>
-        <Header
-          addNote={this.addNote}
-          searchText={this.state.searchText}
-          onSearch={this.onSearch}
-        />
-        <NotesList
-          notes={this.state.notes}
-          onType={this.onType}
-          deleteNote={this.deleteNote}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Header
+        addNote={addNote}
+        searchText={searchText}
+        searchNote={searchNote}
+      />
+      <NotesList
+        notes={notes}
+        editNote={editNote}
+        deleteNote={deleteNote}
+      />
+    </div>
+  );
 }
 
 export default App;
