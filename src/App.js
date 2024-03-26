@@ -3,10 +3,13 @@ import Header from "./Header.js";
 import NotesList from "./NotesList.js";
 
 function App() {
+  const [color, setColor] = useState("lightyellow");
+  const defaultColor = "lightyellow";
   const [notes, setNotes] = useState(JSON.parse(window.localStorage.getItem("savedNotes")) || [{
     id: Date.now(),
     title: "",
     description: "",
+    color: defaultColor,
     doesMatchSearch: true
   }]);
   const [searchText, setSearchText] = useState("");
@@ -20,6 +23,7 @@ function App() {
       id: Date.now(),
       title: "",
       description: "",
+      color: defaultColor,
       doesMatchSearch: true
     };
     setNotes([newNote, ...notes])
@@ -67,6 +71,19 @@ function App() {
     setNotes(updatedNotes);
   };
 
+  const updateColor = (noteId, newColor) => {
+    const updatedNotes = notes.map(note => {
+      if (note.id === noteId) {
+        note.color = newColor;
+        setColor(newColor);
+        return note;
+      } else {
+        return note;
+      }
+    });
+    setNotes([...updatedNotes]);
+  };
+
   return (
     <div>
       <Header
@@ -78,6 +95,7 @@ function App() {
         notes={notes}
         editNote={editNote}
         deleteNote={deleteNote}
+        updateColor={updateColor}
       />
     </div>
   );

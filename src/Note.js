@@ -1,6 +1,6 @@
 import React from "react";
 
-const Note = ({ note, editNote, deleteNote }) => {
+const Note = ({ note, editNote, deleteNote, updateColor }) => {
   const updateTitle = (e) =>
     editNote(note.id, "title", e.target.value);
 
@@ -10,7 +10,7 @@ const Note = ({ note, editNote, deleteNote }) => {
   const clickDelete = () => deleteNote(note.id);
 
   return (
-    <li className="note">
+    <li className="note" style={{background: note.color}}>
       <input
         type="text"
         placeholder="Title"
@@ -27,6 +27,7 @@ const Note = ({ note, editNote, deleteNote }) => {
       <span className="note__delete" onClick={clickDelete}>
         X
       </span>
+      <input type="color" className="note-color" value={note.color} onChange={e => updateColor(note.id, e.target.value)} />
     </li>
   );
 };

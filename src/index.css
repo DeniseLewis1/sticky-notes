@@ -99,3 +99,11 @@ textarea {
   color: black;
   cursor: pointer;
 }
+
+.note-color {
+  width: 10%;
+  height: 10%;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
