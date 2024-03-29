@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header.js";
-import NotesList from "./NotesList.js";
+import Header from "./components/Header.js";
+import NotesList from "./components/NotesList.js";
 
 function App() {
   const [color, setColor] = useState("lightyellow");
