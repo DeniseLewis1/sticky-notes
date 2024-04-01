@@ -1,7 +1,10 @@
 import React from "react";
 import { Heart } from "react-feather";
 
-const Note = ({ note, editNote, deleteNote, updateColor }) => {
+const Note = ({ note, editNote, deleteNote, updateColor, favoriteNotes, toggleFavorite }) => {
+  const alreadyFavorite = favoriteNotes.find(favorite => favorite.id === note.id);
+  const faveStyle = alreadyFavorite ? "#333" : "";
+
   const updateTitle = (e) =>
     editNote(note.id, "title", e.target.value);
 
@@ -34,7 +37,9 @@ const Note = ({ note, editNote, deleteNote, updateColor }) => {
         value={note.color} 
         onChange={e => updateColor(note.id, e.target.value)} 
       />
-      <p className="add-favorite"><Heart /></p>
+      <p className="add-favorite" onClick={() => toggleFavorite(note.id)}>
+        <Heart style={{fill: faveStyle}} />
+      </p>
     </li>
   );
 };

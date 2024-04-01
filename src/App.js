@@ -13,10 +13,15 @@ function App() {
     doesMatchSearch: true
   }]);
   const [searchText, setSearchText] = useState("");
+  const [favoriteNotes, setFavoriteNotes] = useState(JSON.parse(window.localStorage.getItem("favoriteNotes")) || []);
 
   useEffect(() => {
     window.localStorage.setItem("savedNotes", JSON.stringify(notes));
   }, [notes]);
+
+  useEffect(() => {
+    window.localStorage.setItem("favoriteNotes", JSON.stringify(favoriteNotes));
+  }, [favoriteNotes]);
 
   const addNote = () => {
     const newNote = {
@@ -44,6 +49,7 @@ function App() {
       }
     });
     setNotes(updatedNotes);
+    updateFavorites(noteId);
   };
 
   const searchNote = (text) => {
@@ -65,10 +71,10 @@ function App() {
   };
 
   const deleteNote = (noteId) => {
-    const updatedNotes = notes.filter(
-      (note) => note.id !== noteId
-    );
+    const updatedNotes = notes.filter((note) => note.id !== noteId);
+    const updatedFavoriteNotes = favoriteNotes.filter(favorite => favorite.id !== noteId);
     setNotes(updatedNotes);
+    setFavoriteNotes([...updatedFavoriteNotes]);
   };
 
   const updateColor = (noteId, newColor) => {
@@ -82,6 +88,32 @@ function App() {
       }
     });
     setNotes([...updatedNotes]);
+    updateFavorites(noteId);
+  };
+
+  const toggleFavorite = (noteId) => {
+    const selectedNote = notes.find(note => note.id === noteId);
+    const alreadyFavorite = favoriteNotes.find(favorite => favorite.id === selectedNote.id);
+
+    if (!alreadyFavorite) {
+      setFavoriteNotes([...favoriteNotes, selectedNote]);
+    }
+    else {
+      const updatedFavoriteNotes = favoriteNotes.filter(favorite => favorite.id !== noteId);
+      setFavoriteNotes([...updatedFavoriteNotes]);
+    }
+  };
+
+  const updateFavorites = (noteId) => {
+    const selectedNote = notes.find(note => note.id === noteId);
+    const updatedFavorites = favoriteNotes.map(favorite => {
+      if (favorite.id === noteId) {
+        return selectedNote;
+      } else {
+        return favorite;
+      }
+    });
+    setFavoriteNotes([...updatedFavorites]);
   };
 
   return (
@@ -96,6 +128,8 @@ function App() {
         editNote={editNote}
         deleteNote={deleteNote}
         updateColor={updateColor}
+        favoriteNotes={favoriteNotes}
+        toggleFavorite={toggleFavorite}
       />
     </div>
   );

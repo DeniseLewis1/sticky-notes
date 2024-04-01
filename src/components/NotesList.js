@@ -1,7 +1,7 @@
 import React from "react";
 import Note from "./Note.js";
 
-const NotesList = ({ notes, editNote, deleteNote, updateColor }) => {
+const NotesList = ({ notes, editNote, deleteNote, updateColor, favoriteNotes, toggleFavorite }) => {
   const matchSearch = (note) => note.doesMatchSearch;
   const matches = notes.filter(matchSearch);
   const renderNote = (note) => (
@@ -11,6 +11,8 @@ const NotesList = ({ notes, editNote, deleteNote, updateColor }) => {
       editNote={editNote}
       deleteNote={deleteNote}
       updateColor={updateColor}
+      toggleFavorite={toggleFavorite}
+      favoriteNotes={favoriteNotes}
     />
   );
   const noteElements = matches.map(renderNote);
