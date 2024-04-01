@@ -3,8 +3,8 @@ import Header from "./components/Header.js";
 import NotesList from "./components/NotesList.js";
 
 function App() {
-  const [color, setColor] = useState("lightyellow");
-  const defaultColor = "lightyellow";
+  const [color, setColor] = useState("#FFFFE0");
+  const defaultColor = "#FFFFE0";
   const [notes, setNotes] = useState(JSON.parse(window.localStorage.getItem("savedNotes")) || [{
     id: Date.now(),
     title: "",
