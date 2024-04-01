@@ -1,4 +1,5 @@
 import React from "react";
+import { Heart } from "react-feather";
 
 const Note = ({ note, editNote, deleteNote, updateColor }) => {
   const updateTitle = (e) =>
@@ -27,7 +28,13 @@ const Note = ({ note, editNote, deleteNote, updateColor }) => {
       <span className="note__delete" onClick={clickDelete}>
         X
       </span>
-      <input type="color" className="note-color" value={note.color} onChange={e => updateColor(note.id, e.target.value)} />
+      <input 
+        type="color" 
+        className="note-color" 
+        value={note.color} 
+        onChange={e => updateColor(note.id, e.target.value)} 
+      />
+      <p className="add-favorite"><Heart /></p>
     </li>
   );
 };
