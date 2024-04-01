@@ -5,14 +5,6 @@ const Note = ({ note, editNote, deleteNote, updateColor, favoriteNotes, toggleFa
   const alreadyFavorite = favoriteNotes.find(favorite => favorite.id === note.id);
   const faveStyle = alreadyFavorite ? "#333" : "";
 
-  const updateTitle = (e) =>
-    editNote(note.id, "title", e.target.value);
-
-  const updateDescription = (e) =>
-    editNote(note.id, "description", e.target.value);
-
-  const clickDelete = () => deleteNote(note.id);
-
   return (
     <li className="note" style={{background: note.color}}>
       <input
@@ -20,15 +12,15 @@ const Note = ({ note, editNote, deleteNote, updateColor, favoriteNotes, toggleFa
         placeholder="Title"
         className="note__title"
         value={note.title}
-        onChange={updateTitle}
+        onChange={e => editNote(note.id, "title", e.target.value)}
       />
       <textarea
         placeholder="Description..."
         className="note__description"
         value={note.description}
-        onChange={updateDescription}
+        onChange={e => editNote(note.id, "description", e.target.value)}
       />
-      <span className="note__delete" onClick={clickDelete}>
+      <span className="note__delete" onClick={() => deleteNote(note.id)}>
         X
       </span>
       <input 
