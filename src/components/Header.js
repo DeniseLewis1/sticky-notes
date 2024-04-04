@@ -1,6 +1,7 @@
 import React from "react";
+import { Filter } from "react-feather";
 
-const Header = ({ addNote, searchText, searchNote }) => {
+const Header = ({ addNote, searchText, searchNote, categories, category, handleCategoryChange }) => {
   const searchInput = (e) => searchNote(e.target.value);
 
   return (
@@ -17,6 +18,18 @@ const Header = ({ addNote, searchText, searchNote }) => {
           value={searchText}
           onChange={searchInput}
         />
+        <form className="category-filter">
+          <Filter />
+          <label for="category">Filter Notes:</label>
+          <select 
+            id="category" 
+            name="category" 
+            value={category} 
+            onChange={handleCategoryChange}
+          >
+            {categories.map(category => <option value={category} key={category}>{category}</option>)}
+          </select>
+          </form>
       </aside>
     </header>
   );

@@ -34,7 +34,8 @@ textarea {
 }
 
 .search,
-.add-new {
+.add-new,
+#category {
   font-size: 14px;
   padding: 5px;
   margin: 8px;
@@ -52,6 +53,35 @@ textarea {
   font-weight: bolder;
   background-color: #eee;
   outline: none;
+}
+
+#category {
+  width: 150px;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.category-filter label {
+  margin-left: 0.5rem;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+
+.category-filter svg {
+  width: 12px;
+  height: 12px;
+  fill: black;
+  color: black;
+}
+
+.category-filter select {
+  margin-left: 2rem;
+  padding: 7px 10px;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: #ffffff;
 }
 
 .note {

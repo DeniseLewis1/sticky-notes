@@ -14,6 +14,8 @@ function App() {
   }]);
   const [searchText, setSearchText] = useState("");
   const [favoriteNotes, setFavoriteNotes] = useState(JSON.parse(window.localStorage.getItem("favoriteNotes")) || []);
+  const [category, setCategory] = useState("All");
+  const categories = ["All", "Favorites"];
 
   useEffect(() => {
     window.localStorage.setItem("savedNotes", JSON.stringify(notes));
@@ -116,15 +118,20 @@ function App() {
     setFavoriteNotes([...updatedFavorites]);
   };
 
+  const handleCategoryChange = (e) => setCategory(e.target.value);
+
   return (
     <div>
       <Header
         addNote={addNote}
         searchText={searchText}
         searchNote={searchNote}
+        categories={categories} 
+        category={category} 
+        handleCategoryChange={handleCategoryChange}
       />
       <NotesList
-        notes={notes}
+        notes={category !== "All" ? favoriteNotes : notes}
         editNote={editNote}
         deleteNote={deleteNote}
         updateColor={updateColor}
