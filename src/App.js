@@ -98,7 +98,7 @@ function App() {
     const alreadyFavorite = favoriteNotes.find(favorite => favorite.id === selectedNote.id);
 
     if (!alreadyFavorite) {
-      setFavoriteNotes([...favoriteNotes, selectedNote]);
+      setFavoriteNotes([...favoriteNotes, selectedNote].sort((a, b) => b.id - a.id));
     }
     else {
       const updatedFavoriteNotes = favoriteNotes.filter(favorite => favorite.id !== noteId);
